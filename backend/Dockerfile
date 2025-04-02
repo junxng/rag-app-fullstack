@@ -24,7 +24,7 @@ COPY requirements.txt .
 
 # Install dependencies using uv with cache mount
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip sync requirements.txt
+    uv venv --python 3.11.4 && source .venv/bin/activate && uv pip sync requirements.txt
 
 # Runtime stage
 FROM python:3.11-slim
