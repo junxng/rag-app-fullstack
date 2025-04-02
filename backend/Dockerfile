@@ -24,7 +24,7 @@ COPY requirements.txt .
 
 # Install dependencies using uv with cache mount
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install --system --no-cache-dir -r requirements.txt
+    uv pip sync requirements.txt
 
 # Runtime stage
 FROM python:3.11-slim
