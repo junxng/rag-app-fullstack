@@ -51,7 +51,9 @@ WORKDIR /app
 # Copy virtual environment from builder
 COPY --from=builder /app/.venv /app/.venv
 
-# Copy application code
+# Copy application code and alembic files
+COPY alembic alembic/
+COPY alembic.ini .
 COPY . .
 
 # Change ownership to non-root user
