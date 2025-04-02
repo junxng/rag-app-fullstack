@@ -27,22 +27,22 @@ This application is a full-stack PDF management system with built-in RAG (Retrie
    Backend `.env` file (`/backend/.env`):
    ```
    # Database settings
-   DATABASE_HOST=localhost
-   DATABASE_NAME=mypdfdatabase
-   DATABASE_USER=postgres
-   DATABASE_PASSWORD=yourpassword
-   DATABASE_PORT=5432
+   DATABASE_HOST=your_database_host
+   DATABASE_NAME=your_database_name
+   DATABASE_USER=your_database_user
+   DATABASE_PASSWORD=your_password
+   DATABASE_PORT=_your_atabase_host
 
    # AWS S3 settings
    AWS_KEY=your_aws_access_key
    AWS_SECRET=your_aws_secret_key
-   AWS_S3_BUCKET=your_bucket_name
+   AWS_S3_BUCKET=your_s3_bucket_name
 
    # OpenAI API settings
    OPENAI_API_KEY=your_openai_api_key
    ```
 
-   Frontend `.env` file (`/frontend/app/.env`):
+   Frontend `.env` file (`/frontend/.env`):
    ```
    NEXT_PUBLIC_API_URL=http://localhost:8000
    ```
@@ -62,12 +62,12 @@ cd backend
 uv venv --python 3.11.4
 source .venv/bin/activate
 uv pip sync requirements.txt
-uvicorn main:app --reload
+uv run uvicorn main:app --reload
 ```
 
 **Frontend**:
 ```bash
-cd frontend/app
+cd frontend
 npm ci
 npm run dev
 ```
