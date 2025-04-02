@@ -10,7 +10,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 RUN apt-get update && apt-get install -y \
     curl \
     build-essential \
+    gcc \
+    python3-dev \
     libpq-dev \
+    postgresql-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
