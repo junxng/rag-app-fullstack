@@ -8,15 +8,16 @@ from uuid import uuid4
 
 # Necessary imports for langchain summarization
 from langchain_openai import OpenAI
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
 # Necessary imports to chat with a PDF file
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_core.prompts import ChatPromptTemplate
 from schemas import QuestionRequest
 from database import SessionLocal
 from config import Settings
@@ -82,7 +83,7 @@ def delete_pdf(id: int, db: Session = Depends(get_db)):
 
 
 # LANGCHAIN
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from operator import or_
 
 langchain_llm = OpenAI(temperature=0, openai_api_key=settings.OPENAI_API_KEY)
@@ -94,14 +95,13 @@ summarize_template_string = """
 """
 
 summarize_prompt = ChatPromptTemplate.from_template(summarize_template_string)
-# Create a runnable sequence (prompt | llm) instead of using deprecated LLMChain
-summarize_runnable = summarize_prompt | langchain_llm
+# Create a runnable sequence (prompt | llm | output parser)
+summarize_chain = summarize_prompt | langchain_llm | StrOutputParser()
 
 @router.post('/summarize-text')
 async def summarize_text(text: str):
     # Use the modern invoke approach
-    response = summarize_runnable.invoke({"text": text})
-    summary = response.content
+    summary = summarize_chain.invoke({"text": text})
     return {'summary': summary}
 
 
@@ -173,7 +173,7 @@ def qa_pdf_by_id(id: int, question_request: QuestionRequest, db: Session = Depen
             # Step 2: Process PDF with simpler approach
             # Import locally to avoid circular imports
             from langchain_community.document_loaders import PyPDFLoader
-            from langchain.text_splitter import RecursiveCharacterTextSplitter
+            from langchain_text_splitters import RecursiveCharacterTextSplitter
             from langchain_openai import OpenAI, OpenAIEmbeddings
             from langchain_community.vectorstores import FAISS
             
