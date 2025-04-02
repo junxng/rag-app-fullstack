@@ -51,9 +51,12 @@ WORKDIR /app
 # Copy virtual environment from builder
 COPY --from=builder /app/.venv /app/.venv
 
-# Copy application code and alembic files
-COPY alembic alembic/
+# Copy application files in correct order
 COPY alembic.ini .
+COPY alembic ./alembic
+COPY migrations ./migrations
+COPY models.py .
+COPY main.py .
 COPY . .
 
 # Change ownership to non-root user
@@ -65,5 +68,5 @@ USER app_user
 # Add virtual environment to PATH
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Run migrations and start the application
+# Wait for database and run migrations
 CMD ["sh", "-c", "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
