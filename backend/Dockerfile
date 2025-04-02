@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     build-essential \
     gcc \
-    python3-dev \
+    python3.11-dev \
     libpq-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -26,7 +26,7 @@ COPY requirements.txt .
 
 # Install dependencies using uv with cache mount
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv venv --python 3.11.4 && \
+    uv venv && \
     . .venv/bin/activate && \
     uv pip sync requirements.txt
 
