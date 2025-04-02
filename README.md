@@ -1,4 +1,4 @@
-# RAG-APP-FULLSTACK
+# Retrieval-Augmented Generation Application Fullstack
 
 This document provides comprehensive guidance for setting up and running the RAG-based PDF Manager application.
 
