@@ -8,7 +8,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 # routers: comment out next line till create them
-from routers import pdfs
+from .routers import pdfs
 
 import config
 
